@@ -31,7 +31,8 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-     
+    'users.apps.UsersConfig',
+    'v1.apps.V1Config',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,8 +42,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
-    'users.apps.UsersConfig',
-    'pagos.apps.PagosConfig',
+    'corsheaders',
+    'drf_yasg',
+    'page',
+    
 ]
 
 MIDDLEWARE = [
@@ -53,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'Apipagos.urls'
@@ -86,6 +90,11 @@ DATABASES = {
     }
 }
 
+
+CORS_ORIGIN_WHITELIST = (
+    'ttp://127.0.0.1:8000',
+    'http://localhost:8000',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -132,12 +141,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
     ),
-    'DEFAULT_THROTTLE_CLASSES': [
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.ScopedRateThrottle',
-    ],
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+        
+    ),
     'DEFAULT_THROTTLE_RATES': {
-        'pagos': '1000/day',
+        'anon': '1000/day',
+        'user': '1000/day',
 
     }
 }

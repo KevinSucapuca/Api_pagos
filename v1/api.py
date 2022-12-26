@@ -13,4 +13,4 @@ class PagoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     search_fields = ['usuario__id', 'fecha_pago', 'servicio']
-    throttle_scope = 'pagos'
+    throttle_scope = 'pagos_v1'
