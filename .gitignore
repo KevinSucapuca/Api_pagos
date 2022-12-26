@@ -347,3 +347,7 @@ poetry.toml
 
 
 # End of https://www.toptal.com/developers/gitignore/api/django,pycharm+all,python
+env
+*.sqlite3
+.vscode
+**/__pycache__/
